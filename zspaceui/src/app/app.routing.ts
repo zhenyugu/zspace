@@ -4,8 +4,6 @@ import { BookComponent } from './book/book.component';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-    //{ path: '', redirectTo: '/home', pathMatch: 'full' },
-    //{ path: '', component: AppComponent },
     { path: 'books', component: BookComponent }
 ];
 @NgModule({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { BooksService } from '../services/books.service';
-import { book } from './book'
+import { book } from './book';
 
 @Component({
   selector: 'app-book',

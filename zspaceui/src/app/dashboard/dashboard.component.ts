@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BooksService } from '../services/books.service';
+import { book } from '../book/book';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private bookService: BooksService) { }
+  books = [];
 
   ngOnInit() {
+    this.GetBooks();
   }
 
+  GetBooks() {
+    this.bookService.getBooks().subscribe(data => {
+      this.books = data as book[];
+    });
+  }
 }

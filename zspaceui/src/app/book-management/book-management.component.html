@@ -24,8 +24,23 @@
   <div class="row">
     <h3>新看的书</h3>
     <!-- <form #newBookForm="ngForm" (onSubmit)="addNewBook()">
+
       <input type="text" id="newBookName" name="newBookName" [(ngModel)]="newBook.name" />
       <input type="text" id="newBookAuthor" name="newBookAuthor" [(ngModel)]="newBook.author" />
     </form> -->
+    <form (ngSubmit)="addNewBook()" #newBookForm="ngForm">
+
+      <div class="form-group">
+        <label class="sr-only" for="bookname">Email address</label>
+        <input type="text" class="form-control" id="bookname" name="bookname" placeholder="书名" [(ngModel)]="newBook.name">
+      </div>
+      <div class="form-group">
+        <label class="sr-only" for="bookauthor">Password</label>
+        <input type="text" class="form-control" id="bookauthor" name="bookauthor" placeholder="作者" [(ngModel)]="newBook.author">
+      </div>
+      <button type="submit" class="btn btn-default">添加</button>
+    </form>
+
+    <!-- {{newBook.name}} -->
   </div>
 </div>

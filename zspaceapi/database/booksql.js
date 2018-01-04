@@ -1,6 +1,7 @@
 var BookSQL = {
     insert: 'INSERT INTO books(name, author) VALUES(?,?)',
     queryAll: 'SELECT * FROM books',
-    getUserById: 'SELECT * FROM books WHERE uid = ? ',
+    update: 'UPDATE BOOKS SET NAME=?, AUTHOR=? WHERE ID=?',
+    deleteById: 'DELETE FROM BOOKS WHERE id=?'
 };
 module.exports = BookSQL;

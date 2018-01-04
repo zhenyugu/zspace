@@ -17,26 +17,89 @@ var responseJSON = function (res, ret) {
     }
 };
 
-router.get('/', function (req, res, next) {
-    pool.getConnection(function (err, connection) {
-        var param = req.query || req.params;
-
-        connection.query(bookSql.queryAll, null, function (err, result) {
-            res.json(result);
-            // 释放连接  
-            connection.release();
-        });
-    });
-})
-    .get('/addBook', function (req, res, next) {
+router
+    .get('/', function (req, res, next) {
         pool.getConnection(function (err, connection) {
             var param = req.query || req.params;
+
+            connection.query(bookSql.queryAll, null, function (err, result) {
+                res.json(result);
+                // 释放连接  
+                connection.release();
+            });
+        });
+    })
+    .post('/', function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            var param = req.body;
+
+            if (param == undefined) {
+                res.send({
+                    code: 500,
+                    msg: 'add falied'
+                })
+            }
 
             connection.query(bookSql.insert, [param.name, param.author], function (err, result) {
                 if (result) {
                     result = {
                         code: 200,
                         msg: '增加成功'
+                    };
+                }
+
+                // 以json形式，把操作结果返回给前台页面     
+                responseJSON(res, result);
+
+                // 释放连接  
+                connection.release();
+
+            });
+        });
+    })
+    .put('/', function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            var params = req.body;
+
+            if (params == undefined) {
+                res.send({
+                    code: 500,
+                    msg: 'update falied'
+                })
+            }
+
+            connection.query(bookSql.update, [params.name, params.author, params.id], function (err, result) {
+                if (result) {
+                    result = {
+                        code: 200,
+                        msg: 'updated'
+                    };
+                }
+
+                // 以json形式，把操作结果返回给前台页面     
+                responseJSON(res, result);
+
+                // 释放连接  
+                connection.release();
+
+            });
+        });
+    })
+    .delete('/:id', function (req, res) {
+        pool.getConnection(function (err, connection) {
+            var params = req.params;
+            if (params == undefined) {
+                res.send({
+                    code: 500,
+                    msg: 'delete failed'
+                })
+            }
+
+            connection.query(bookSql.deleteById, [params.id], function (err, result) {
+                if (result) {
+                    result = {
+                        code: 200,
+                        msg: 'delete successfully'
                     };
                 }
 

@@ -6,21 +6,33 @@
     </div>
     <ul class="nav nav-pills">
         <li role="presentation">
-            <a href="/dashboard">Dashboard</a>
+            <a href="/dashboard">首页</a>
         </li>
         <li role="presentation">
-            <a href="/ariticles">articles</a>
+            <a href="/articles">文章</a>
         </li>
         <li role="presentation">
-            <a href="/books">books</a>
+            <a href="/books">书籍</a>
         </li>
         <li role="presentation">
-            <a href="/login">login</a>
+            <a href="/login">登陆</a>
+        </li>
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                我的
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="/bookManagement">书籍</a>
+                </li>
+                <li>
+                    <a href="/articleManagement">文章</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </div>
-
-
 
 <div class="container-fluid">
     <router-outlet></router-outlet>

@@ -1,33 +1,12 @@
 <div class="container-fluid">
-  <div class="row">
-    <h3>我看过的书</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>书名</th>
-          <th>作者</th>
-          <th>书评</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor='let book of books'>
-          <td>{{book.name}}</td>
-          <td>{{book.author}}</td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="row"></div>
 
   <div class="row">
     <h3>新看的书</h3>
     <!-- <form #newBookForm="ngForm" (onSubmit)="addNewBook()">
-
-      <input type="text" id="newBookName" name="newBookName" [(ngModel)]="newBook.name" />
-      <input type="text" id="newBookAuthor" name="newBookAuthor" [(ngModel)]="newBook.author" />
-    </form> -->
+    
+          <input type="text" id="newBookName" name="newBookName" [(ngModel)]="newBook.name" />
+          <input type="text" id="newBookAuthor" name="newBookAuthor" [(ngModel)]="newBook.author" />
+        </form> -->
     <form (ngSubmit)="addNewBook()" #newBookForm="ngForm">
 
       <div class="form-group">
@@ -43,4 +22,31 @@
 
     <!-- {{newBook.name}} -->
   </div>
+  <div class="row"></div>
+
+  <div class="row">
+    <h3>我看过的书</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>书名</th>
+          <th>作者</th>
+          <th>书评</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let book of bookHistory'>
+          <td>{{book.name}}</td>
+          <td>{{book.author}}</td>
+          <td></td>
+          <td>
+              <button type="button" class="btn btn-link" (click)="deleteBook(book.id)">删除</button>              
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
 </div>

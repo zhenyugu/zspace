@@ -10,16 +10,12 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var books = require('./routes/books');
 var articles = require('./routes/article');
+var bookHistory = require('./routes/bookHistory');
 
 var app = express();
-// var connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'gzy1992815',
-//   database: 'zspace'
-// });
-app.all('*', function(req, res, next) {  
-  res.header("Access-Control-Allow-Origin", "*");  
+
+app.all('*', function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 
@@ -41,42 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/books', books);
-app.use('/article', articles)
-
-app.get('/listbooks', function (req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
-  var result;
-  connection.query('select * from books', function (err, rows, fields) {
-    if (err) throw err;
-
-    result = rows;
-  });
-
-   res.json(result);
-
-  // const books = [
-  //   {
-  //     "id": 1,
-  //     "name": "book1",
-  //     "author": "author1"
-  //   }
-  //   ,
-  //   {
-
-  //     "id": 2,
-  //     "name": "book1",
-  //     "author": "author2"
-  //   }
-  // ]
-
-  // res.json(books);
-
-  // res.json({
-  //   "book1": {
-  //     "name": "book1"
-  //   }
-  // })
-});
+app.use('/article', articles);
+app.use('/bookHistory', bookHistory);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

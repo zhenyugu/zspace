@@ -3,7 +3,7 @@ var router = express.Router();
 // 导入MySQL模块
 var mysql = require('mysql');
 var dbConfig = require('../dbconfig');
-var bookSql = require('../database/booksql');
+var bookHistorySql = require('../database/bookHistorysql');
 // 使用DBConfig.js的配置信息创建一个MySQL连接池
 var pool = mysql.createPool(dbConfig.mysql);
 // 响应一个JSON数据
@@ -20,23 +20,27 @@ var responseJSON = function (res, ret) {
 router
     .get('/', function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            var params = req.query || req.params;
+            var param = req.query || req.params;
 
-            if (params != null) {
-                connection.query(bookSql.queryByNameAndAuthor, [params.name, params.author], function (err, result) {
-                    res.json(result);
-                    // 释放连接  
-                    connection.release();
-                });
-            }
-            else {
-
-                connection.query(bookSql.queryAll, null, function (err, result) {
-                    res.json(result);
-                    // 释放连接  
-                    connection.release();
-                });
-            }
+            connection.query(bookHistorySql.queryAll, null, function (err, result) {
+                res.json(result);
+                // 释放连接  
+                connection.release();
+            });
+        });
+    })
+    .get('/:userid', function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            var params = req.params;
+            //console.log(req);
+            console.log(req.params);
+            console.log(params.userid);
+            connection.query(bookHistorySql.queryByReader, [params.userid], function (err, result) {
+                console.log(result);
+                res.json(result);
+                // 释放连接  
+                connection.release();
+            });
         });
     })
     .post('/', function (req, res, next) {
@@ -50,9 +54,9 @@ router
                 })
             }
 
-            connection.query(bookSql.insert, [param.name, param.author], function (err, result) {
+            connection.query(bookHistorySql.insert, [param.bookId, param.readerId, 1, false], function (err, result) {
                 if (result) {
-                    console.log(result);
+
                     result = {
                         code: 200,
                         msg: '增加成功'
@@ -79,7 +83,7 @@ router
                 })
             }
 
-            connection.query(bookSql.update, [params.name, params.author, params.id], function (err, result) {
+            connection.query(bookHistorySql.update, [params.name, params.author, params.id], function (err, result) {
                 if (result) {
                     result = {
                         code: 200,
@@ -106,7 +110,7 @@ router
                 })
             }
 
-            connection.query(bookSql.deleteById, [params.id], function (err, result) {
+            connection.query(bookHistorySql.deleteById, [params.id], function (err, result) {
                 if (result) {
                     result = {
                         code: 200,

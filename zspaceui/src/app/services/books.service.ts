@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { book } from '../book/book';
+import { Book } from '../book/book';
+import { AppConfigService } from './app-config.service';
+
 
 @Injectable()
 export class BooksService {
 
-  constructor(private http: HttpClient) { }
+  apiBaseUrl;
+
+  constructor(private http: HttpClient, private appConfigService: AppConfigService) {
+    this.apiBaseUrl = appConfigService.getHttpApiBase();
+  }
 
   getBooks = function () {
-    return this.http.get('http://localhost:3000/books', {
+    return this.http.get(this.apiBaseUrl + '/books', {
     });
+  };
+
+  getBookByNameAndAuthor = function (name, author) {
+    return this.http.get(this.apiBaseUrl + '/books?name=' + name + '&author=' + author);
   };
 
   addBook = function (book) {
@@ -17,18 +27,16 @@ export class BooksService {
       name: book.name,
       author: book.author
     };
-
-    //body = JSON.parse(body);
-
     return this.http.post('http://localhost:3000/books', body, {
       headers: new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8')
 
     });
-
   }
 
   updateBook = function () { }
 
-  deleteBook = function () { }
+  deleteBook = function (id: number) {
+    return this.http.delete('http://localhost:3000/books/' + id);
+  }
 
 }

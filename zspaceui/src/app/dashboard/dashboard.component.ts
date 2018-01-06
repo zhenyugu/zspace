@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BooksService } from '../services/books.service';
-import { book } from '../book/book';
+import { Book } from '../book/book';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
 
   GetBooks() {
     this.bookService.getBooks().subscribe(data => {
-      this.books = data as book[];
+      this.books = data as Book[];
     });
   }
 }

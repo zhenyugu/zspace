@@ -29,7 +29,6 @@ export class BooksService {
     };
     return this.http.post('http://localhost:3000/books', body, {
       headers: new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8')
-
     });
   }
 
@@ -38,5 +37,4 @@ export class BooksService {
   deleteBook = function (id: number) {
     return this.http.delete('http://localhost:3000/books/' + id);
   }
-
 }

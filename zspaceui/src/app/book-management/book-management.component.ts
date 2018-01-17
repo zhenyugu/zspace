@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Book } from '../book/book';
 import { BookHistory } from './book-history';
 import { BooksService } from '../services/books.service';
@@ -17,7 +18,7 @@ export class BookManagementComponent implements OnInit {
   newBook: Book;
   newBookHistory: BookHistory;
 
-  constructor(private bookService: BooksService, private bookHistoryService: BookHistoryService) { }
+  constructor(private bookService: BooksService, private router: Router, private bookHistoryService: BookHistoryService) { }
 
   ngOnInit() {
     this.newBook = new Book();
@@ -61,13 +62,21 @@ export class BookManagementComponent implements OnInit {
           }
         });
       }
+      this.newBook = new Book();
     });
   }
 
   deleteBook(id) {
-    this.bookService.deleteBook(id).subscribe(result => {
+    this.bookHistoryService.deleteBookHistory(id).subscribe(data => {
       this.getBookHistroy();
     });
+    // this.bookService.deleteBook(id).subscribe(result => {
+    //   this.getBookHistroy();
+    // });
+  }
+
+  addBookArticle(id) {
+    this.router.navigate(['/bookArticle', id]);
   }
 
 }

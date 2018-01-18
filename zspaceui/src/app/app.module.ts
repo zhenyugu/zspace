@@ -16,6 +16,9 @@ import { ArticleComponent } from './article/article.component';
 import { ArticleManagementComponent } from './article-management/article-management.component';
 import { BookArticleComponent } from './book-management/book-article/book-article.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -27,7 +30,10 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     BookManagementComponent,
     ArticleComponent,
     ArticleManagementComponent,
-    BookArticleComponent
+    BookArticleComponent,
+    UserManagementComponent,
+    RegistrationComponent,
+    NotFoundComponent
   ],
   imports: [
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),

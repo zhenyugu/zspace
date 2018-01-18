@@ -19,14 +19,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('login successfully');
-    localStorage.setItem('currentUser', 'zgu');
+     console.log('login successfully');
+    // localStorage.setItem('currentUser', 'zgu');
 
-    this.router.navigate(['/dashboard']);
-    // this.loginService.login().then(()=>{
+    this.loginService.login('tj', 'password').subscribe(res => {
+      console.log(res);
+      this.router.navigate(['/dashboard']);
+    });
+  }
 
-    // });
-    //this.loginService.
+  register() {
+    this.router.navigate(['register']);
   }
 
 }

@@ -30,11 +30,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 
-app.use(session({
-  resave: false, // don't save session if unmodified
-  saveUninitialized: false, // don't create session until something stored
-  secret: 'shhhh, very secret'
-}));
+// app.use(session({
+//   resave: false, // don't save session if unmodified
+//   saveUninitialized: false, // don't create session until something stored
+//   secret: 'shhhh, very secret'
+// }));
 
 // app.use(function(req, res, next){
 //   var err = req.session.error;

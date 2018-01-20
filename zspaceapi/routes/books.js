@@ -52,7 +52,6 @@ router
 
             connection.query(bookSql.insert, [param.name, param.author], function (err, result) {
                 if (result) {
-                    console.log(result);
                     result = {
                         code: 200,
                         msg: '增加成功'

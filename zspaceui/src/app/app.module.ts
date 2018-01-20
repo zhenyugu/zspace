@@ -20,6 +20,9 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { RegistrationComponent } from './registration/registration.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+// import services
+import { UsersService } from './services/users.service';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +45,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [BooksService, LoginService, AppConfigService, BookHistoryService],
+  providers: [BooksService, LoginService, AppConfigService, BookHistoryService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

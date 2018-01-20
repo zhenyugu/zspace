@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit {
      console.log('login successfully');
     // localStorage.setItem('currentUser', 'zgu');
 
-    this.loginService.login('tj', 'password').subscribe(res => {
+    this.loginService.login(this.loginUser.name, this.loginUser.password).subscribe(res => {
       console.log(res);
-      this.router.navigate(['/dashboard']);
+      //this.router.navigate(['/dashboard']);
     });
   }
 

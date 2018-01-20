@@ -1,92 +1,68 @@
 var express = require('express');
 var hash = require('pbkdf2-password')()
-var path = require('path');
-
 var router = express.Router();
+var path = require('path');
+var mysql = require('mysql');
+var dbConfig = require('../dbconfig');
+var userSql = require('../database/usersql');
+// 使用DBConfig.js的配置信息创建一个MySQL连接池
+var pool = mysql.createPool(dbConfig.mysql);
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-
-
-// dummy database
-
-var users = {
-  tj: { name: 'tj' }
+// 响应一个JSON数据
+var responseJSON = function (res, ret) {
+  console.log(ret);
+  if (typeof ret === 'undefined') {
+    res.json({
+      code: '-200', msg: '操作失败'
+    });
+  } else {    
+    res.json(ret);
+  }
 };
 
 // when you create a user, generate a salt
 // and hash the password ('foobar' is the pass here)
 
-hash({ password: 'foobar' }, function (err, pass, salt, hash) {
-  if (err) throw err;
-  // store the salt & hash in the "db"
-  users.tj.salt = salt;
-  users.tj.hash = hash;
+/* GET users listing. */
+router.get('/', function (req, res, next) {
+  res.send('respond with a resource');
 });
 
-
-// Authenticate using our plain-object database of doom!
-
-function authenticate(name, pass, fn) {
-  console.log(name);
-  console.log(pass);
-  if (!module.parent) console.log('authenticating %s:%s', name, pass);
-  var user = users[name];
-  // query the db for the given username
-  if (!user) return fn(new Error('cannot find user'));
-  // apply the same algorithm to the POSTed password, applying
-  // the hash against the pass / salt, if there is a match we
-  // found the user
-  hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
-    if (err) return fn(err);
-    if (hash == user.hash) return fn(null, user);
-    fn(new Error('invalid password'));
-  });
-}
-
-function restrict(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    req.session.error = 'Access denied!';
-    res.redirect('/login');
+router.post('/register', function (req, res, next) {
+  var params = req.body;
+  console.log(params);
+  
+  if (params === undefined) {
+    res.send({
+      code: 500,
+      msg: 'add falied'
+    })
   }
-}
 
-router.post('/login', function(req, res){
-  console.log(req);
-  console.log(1);
-  authenticate(req.body.username, req.body.password, function(err, user){
-    if (user) {
-      // Regenerate session when signing in
-      // to prevent fixation
-      req.session.regenerate(function(){
-        // Store the user's primary key
-        // in the session store to be retrieved,
-        // or in this case the entire user object
-        req.session.user = user;
-        req.session.success = 'Authenticated as ' + user.name
-          + ' click to <a href="/logout">logout</a>. '
-          + ' You may now access <a href="/restricted">/restricted</a>.';
-        res.redirect('back');
+  hash({ password: params.password }, function (err, pass, salt, hash) {
+    console.log(11111);
+    if (err) throw err;
+    // store the salt & hash in the "db"
+
+    pool.getConnection(function (err, connection) {
+      console.log(userSql.insert);
+      console.log(params);
+      connection.query(userSql.insert, [params.username, params.nickname, salt, hash, params.email, params.phonenumber, 0], function (err, result) {
+        if (result) {
+          result = {
+            code: 200,
+            msg: '增加成功'
+          };
+        }
+
+        // 以json形式，把操作结果返回给前台页面     
+        responseJSON(res, result);
+
+        // 释放连接  
+        connection.release();
       });
-    } else {
-      req.session.error = 'Authentication failed, please check your '
-        + ' username and password.'
-        + ' (use "tj" and "foobar")';
-      res.redirect('/login');
-    }
+    });
   });
 });
 
-router.get('/logout', function(req, res){
-  // destroy the user's session to log them out
-  // will be re-created next request
-  req.session.destroy(function(){
-    res.redirect('/');
-  });
-});
 module.exports = router;

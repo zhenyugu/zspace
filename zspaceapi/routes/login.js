@@ -47,15 +47,7 @@ router.post('/', function (req, res, next) {
       else if (result && result.length === 1) {
         var user = result[0];
         hash({ password: params.password, salt: user.salt }, function (err, pass, salt, hash) {
-          if (hash === user.hash) {
-            result = {
-              code: 200,
-              username: user.username,
-              userid: user.userid,
-              msg: 'the password is correct'
-            };
-          } else {
-            console.log(2);
+          if (hash !== user.hash) {
             result = {
               code: 500,
               msg: 'password is incorrect!'

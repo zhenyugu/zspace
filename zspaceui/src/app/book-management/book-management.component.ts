@@ -4,6 +4,7 @@ import { Book } from '../book/book';
 import { BookHistory } from './book-history';
 import { BooksService } from '../services/books.service';
 import { BookHistoryService } from '../services/book-history.service';
+import { HelpService } from '../services/help.service';
 
 @Component({
   selector: 'app-book-management',
@@ -14,11 +15,14 @@ export class BookManagementComponent implements OnInit {
 
   books = [];
   bookHistory = [];
+  addBookMessage;
 
   newBook: Book;
   newBookHistory: BookHistory;
 
-  constructor(private bookService: BooksService, private router: Router, private bookHistoryService: BookHistoryService) { }
+  constructor(private bookService: BooksService, private router: Router,
+    private bookHistoryService: BookHistoryService,
+    private helpService: HelpService) { }
 
   ngOnInit() {
     this.newBook = new Book();
@@ -26,7 +30,8 @@ export class BookManagementComponent implements OnInit {
   }
 
   getBookHistroy() {
-    this.bookHistoryService.getBookHistoryByUser(1).subscribe(data => {
+    const userid = this.helpService.getCurrentUser().userid;
+    this.bookHistoryService.getBookHistoryByUser(userid).subscribe(data => {
       console.log(data);
       this.bookHistory = data;
     });
@@ -34,13 +39,24 @@ export class BookManagementComponent implements OnInit {
 
   addNewBook() {
     const book = this.newBook as Book;
+    if (book.name === undefined || book.author === undefined) {
+      this.addBookMessage = '请填入正确的书名和作者';
+      return;
+    }
+
+    const user = this.helpService.getCurrentUser();
+
+    if (user.userid === undefined || user.username === null) {
+      this.router.navigate(['login']);
+      return;
+    }
     // check if book existed
     this.bookService.getBookByNameAndAuthor(book.name, book.author).subscribe(result => {
       console.log(book);
       if (result.length === 1) {
         const bookHistory = new BookHistory();
-        bookHistory.bookId = result.id;
-        bookHistory.readerId = 1;
+        bookHistory.bookId = result[0].bookId;
+        bookHistory.readerId = Number(user.userid);
         bookHistory.status = 0;
         bookHistory.hasArticle = false;
         this.bookHistoryService.addBookHistory(bookHistory).subscribe(data => {
@@ -52,7 +68,7 @@ export class BookManagementComponent implements OnInit {
             this.bookService.getBookByNameAndAuthor(book.name, book.author).subscribe(d => {
               const bookHistory = new BookHistory();
               bookHistory.bookId = d[0].bookId;
-              bookHistory.readerId = 1;
+              bookHistory.readerId = Number(user.userid);
               bookHistory.status = 0;
               bookHistory.hasArticle = false;
               this.bookHistoryService.addBookHistory(bookHistory).subscribe(r => {
@@ -64,19 +80,21 @@ export class BookManagementComponent implements OnInit {
       }
       this.newBook = new Book();
     });
+
+    this.clearAddBookMessage();
   }
 
   deleteBook(id) {
     this.bookHistoryService.deleteBookHistory(id).subscribe(data => {
       this.getBookHistroy();
     });
-    // this.bookService.deleteBook(id).subscribe(result => {
-    //   this.getBookHistroy();
-    // });
   }
 
   addBookArticle(id) {
-    this.router.navigate(['/bookArticle', id]);
+    this.router.navigate(['home/bookArticle', id]);
   }
 
+  clearAddBookMessage() {
+    this.addBookMessage = '';
+  }
 }

@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       if (res.code === 200) {
         localStorage.setItem('username', res.username);
         localStorage.setItem('userid', res.userid);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['home', 'dashboard']);
       } else {
         this.loginMessage = '账户名/密码不正确';
       }

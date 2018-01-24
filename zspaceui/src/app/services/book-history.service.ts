@@ -37,7 +37,7 @@ export class BookHistoryService {
   updateBookHistory = function () { };
 
   deleteBookHistory = function (id) {
-    return this.http.delete(this.apiBaseUrl + '/books/' + id);
+    return this.http.delete(this.apiBaseUrl + '/bookHistory/' + id);
   };
 
 }

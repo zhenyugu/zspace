@@ -10,15 +10,23 @@ import { UsersService } from '../services/users.service';
 })
 export class RegistrationComponent implements OnInit {
   user: User;
+  registrationMessage;
 
   constructor(private router: Router, private userService: UsersService) { }
 
   ngOnInit() {
     this.user = new User();
+    this.user.username = '';
+    this.user.email = '';
+    this.user.phonenumber = '';
+    this.user.password = '';
   }
 
   onSubmit() {
-    console.log(this.user);
+    if (!this.isRegistrationInfoValid()) {
+      this.registrationMessage = '请填入所有注册信息';
+      return;
+    }
     this.userService.register(this.user).subscribe(data => {
       this.gotoLogin();
     });
@@ -30,6 +38,14 @@ export class RegistrationComponent implements OnInit {
 
   gotoLogin() {
     this.router.navigate(['login']);
+  }
+
+  isRegistrationInfoValid() {
+    if (this.user.username === '' || this.user.email === '' || this.user.phonenumber === '' || this.user.phonenumber === '') {
+      return false;
+    }
+
+    return true;
   }
 
 }

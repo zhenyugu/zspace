@@ -29,12 +29,22 @@ router
             });
         });
     })
-    .get('/:userid', function (req, res, next) {
+
+    .get('/:id', function (req, res, next) {
         pool.getConnection(function (err, connection) {
             var params = req.params;
-            //console.log(req);
-            console.log(req.params);
-            console.log(params.userid);
+            connection.query(bookHistorySql.queryByHistoryId, [params.id], function (err, result) {
+                console.log(result);
+                res.json(result);
+                // 释放连接  
+                connection.release();
+            });
+        });
+    })
+
+    .get('/getAllByUserId/:userid', function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            var params = req.params;
             connection.query(bookHistorySql.queryByReader, [params.userid], function (err, result) {
                 console.log(result);
                 res.json(result);
@@ -74,8 +84,8 @@ router
     })
     .put('/', function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            var params = req.body;
-
+            var params = req.body.bookHistory;
+            console.log(params);
             if (params == undefined) {
                 res.send({
                     code: 500,
@@ -83,7 +93,7 @@ router
                 })
             }
 
-            connection.query(bookHistorySql.update, [params.name, params.author, params.id], function (err, result) {
+            connection.query(bookHistorySql.update, [params.status, params.hasArticle, params.id], function (err, result) {
                 if (result) {
                     result = {
                         code: 200,

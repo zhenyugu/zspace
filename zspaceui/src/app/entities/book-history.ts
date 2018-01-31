@@ -3,6 +3,6 @@ export class BookHistory {
     bookId: number;
     readerId: number;
     status: number;
-    hasArticle: boolean;
+    hasArticle: number;
     createdTime: Date;
 }

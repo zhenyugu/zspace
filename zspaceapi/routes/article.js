@@ -18,9 +18,31 @@ var responseJSON = function (res, ret) {
 };
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource, articel');
-});
+// router.get('/', function (req, res, next) {
+//   res.send('respond with a resource, articel');
+//   pool.getConnection(function (err, connection) {
+
+
+//   });
+// });
+
+
+
+router.get('/:id', function (req, res, next) {
+  pool.getConnection(function (err, connection) {
+    var params = req.params;
+    //console.log(req);
+        console.log(params.id);
+
+    if (params != null) {
+      connection.query(articleSql.queryByBookHistoryId, [params.id], function (err, result) {
+        res.json(result);
+        // 释放连接  
+        connection.release();
+      });
+    }
+  });
+})
 
 router.post('/', function (req, res, next) {
   pool.getConnection(function (err, connection) {
@@ -38,6 +60,7 @@ router.post('/', function (req, res, next) {
 
     connection.query(articleSql.insert, [params.title, params.articletype, params.mainbody, params.isbookarticle, params.bookhistoryid, params.status, params.userid], function (err, result) {
       if (result) {
+        console.log(result);
         result = {
           code: 200,
           msg: '增加成功'

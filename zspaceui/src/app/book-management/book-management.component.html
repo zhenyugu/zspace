@@ -42,7 +42,9 @@
           <td>{{book.author}}</td>
           <td>暂无</td>
           <td>
-            <button type="button" class="btn btn-link" (click)="addBookArticle(book.id)">写书评</button>
+            
+            <button *ngIf="!book.hasArticle" type="button" class="btn btn-link" (click)="addBookArticle(book.id)">写书评</button>
+            <button *ngIf="book.hasArticle" type="button" class="btn btn-link" (click)="viewArticle(book.id)">阅览</button>
             <button type="button" class="btn btn-link" (click)="deleteBook(book.id)">删除</button>
           </td>
         </tr>

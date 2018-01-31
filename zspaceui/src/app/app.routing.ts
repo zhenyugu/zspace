@@ -14,6 +14,7 @@ import { ArticleManagementComponent } from './article-management/article-managem
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HomeComponent } from './home/home.component';
+import { ArticleViewComponent } from './article-view/article-view.component';
 
 
 const routes: Routes = [
@@ -27,8 +28,9 @@ const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'books', component: BookComponent },
             { path: 'bookManagement', component: BookManagementComponent },
-            { path: 'bookArticle/:id', component: BookArticleComponent },
+            { path: 'bookArticle/:bookhistoryid', component: BookArticleComponent },
             { path: 'articles', component: ArticleComponent },
+            { path: 'articles/:id', component: ArticleViewComponent },
             { path: 'articleManagement', component: ArticleManagementComponent },
         ]
     }

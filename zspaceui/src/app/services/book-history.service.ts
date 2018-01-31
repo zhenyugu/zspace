@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfigService } from './app-config.service';
-import { BookHistory } from '../book-management/book-history';
+import { BookHistory } from '../entities/book-history';
 
 @Injectable()
 export class BookHistoryService {
@@ -31,10 +31,19 @@ export class BookHistoryService {
   };
 
   getBookHistoryByUser = function (userId) {
-    return this.http.get(this.apiBaseUrl + '/bookHistory/' + userId);
+    return this.http.get(this.apiBaseUrl + '/bookHistory/getAllByUserId/' + userId);
   };
 
-  updateBookHistory = function () { };
+  getBookHistoryById = function (id) {
+    return this.http.get(this.apiBaseUrl + '/bookHistory/' + id);
+  };
+
+  updateBookHistory = function (bookHistory) {
+    const body = {
+      'bookHistory': bookHistory
+    };
+    return this.http.put(this.apiBaseUrl + '/bookHistory', body);
+  };
 
   deleteBookHistory = function (id) {
     return this.http.delete(this.apiBaseUrl + '/bookHistory/' + id);

@@ -28,6 +28,7 @@ import { BookHistoryService } from './services/book-history.service';
 import { LoginService } from './services/login.service';
 import { AppConfigService } from './services/app-config.service';
 import { ArticlesService } from './services/articles.service';
+import { ArticleViewComponent } from './article-view/article-view.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { ArticlesService } from './services/articles.service';
     UserManagementComponent,
     RegistrationComponent,
     NotFoundComponent,
-    HomeComponent
+    HomeComponent,
+    ArticleViewComponent
   ],
   imports: [
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),

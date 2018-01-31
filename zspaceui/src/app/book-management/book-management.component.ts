@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../book/book';
-import { BookHistory } from './book-history';
+import { BookHistory } from '../entities/book-history';
 import { BooksService } from '../services/books.service';
 import { BookHistoryService } from '../services/book-history.service';
 import { HelpService } from '../services/help.service';
@@ -58,7 +58,7 @@ export class BookManagementComponent implements OnInit {
         bookHistory.bookId = result[0].bookId;
         bookHistory.readerId = Number(user.userid);
         bookHistory.status = 0;
-        bookHistory.hasArticle = false;
+        bookHistory.hasArticle = 0;
         this.bookHistoryService.addBookHistory(bookHistory).subscribe(data => {
           this.getBookHistroy();
         });
@@ -70,7 +70,7 @@ export class BookManagementComponent implements OnInit {
               bookHistory.bookId = d[0].bookId;
               bookHistory.readerId = Number(user.userid);
               bookHistory.status = 0;
-              bookHistory.hasArticle = false;
+              bookHistory.hasArticle = 0;
               this.bookHistoryService.addBookHistory(bookHistory).subscribe(r => {
                 this.getBookHistroy();
               });
@@ -92,6 +92,10 @@ export class BookManagementComponent implements OnInit {
 
   addBookArticle(id) {
     this.router.navigate(['home/bookArticle', id]);
+  }
+
+  viewArticle(id) {
+    this.router.navigate(['home/articles/', id]);
   }
 
   clearAddBookMessage() {

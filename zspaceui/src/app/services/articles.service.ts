@@ -10,7 +10,9 @@ export class ArticlesService {
     this.apiBaseUrl = this.appConfigService.getHttpApiBase();
   }
 
-  getAllArticles() { }
+  getAllArticles() {
+    return this.http.get(this.apiBaseUrl + '/article');
+  }
 
   getArticlesByUser() {
 

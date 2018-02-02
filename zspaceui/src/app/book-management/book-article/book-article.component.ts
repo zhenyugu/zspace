@@ -58,19 +58,19 @@ export class BookArticleComponent implements OnInit {
     article.status = 0;
     article.userid = Number.parseInt(user.userid);
 
-    this.articleService.addArticle(article).subscribe(res => {
-      console.log(res);
-      const bookHisotry = this.bookHistory;
-      bookHisotry.hasArticle = 1;
-      this.bookHistoryService.updateBookHistory(this.bookHistory).subscribe(data => {
-        this.router.navigate(['register']);
-      });
+    this.articleService.addArticle(article).subscribe((res: any) => {
+      if (res.insertId !== undefined) {
+        const bookHisotry = this.bookHistory;
+        bookHisotry.hasArticle = 1;
+        this.bookHistoryService.updateBookHistory(this.bookHistory).subscribe(data => {
+          this.router.navigate(['home/articles/', res.insertId]);
+        });
+      }
     });
     console.log(this.editorContent);
   }
 
   saveAsDraft() {
-
   }
 
 

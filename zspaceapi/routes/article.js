@@ -31,11 +31,9 @@ var responseJSON = function (res, ret) {
 router.get('/:id', function (req, res, next) {
   pool.getConnection(function (err, connection) {
     var params = req.params;
-    //console.log(req);
-        console.log(params.id);
 
     if (params != null) {
-      connection.query(articleSql.queryByBookHistoryId, [params.id], function (err, result) {
+      connection.query(articleSql.queryById, [params.id], function (err, result) {
         res.json(result);
         // 释放连接  
         connection.release();
@@ -46,7 +44,6 @@ router.get('/:id', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   pool.getConnection(function (err, connection) {
-    console.log(req.body);
     var params = req.body.article;
 
     if (params == undefined) {
@@ -55,13 +52,12 @@ router.post('/', function (req, res, next) {
         msg: 'add falied'
       })
     }
-
-    console.log(params);
-
     connection.query(articleSql.insert, [params.title, params.articletype, params.mainbody, params.isbookarticle, params.bookhistoryid, params.status, params.userid], function (err, result) {
       if (result) {
+        console.log("insert success");
         console.log(result);
         result = {
+          insertId: result.insertId,
           code: 200,
           msg: '增加成功'
         };

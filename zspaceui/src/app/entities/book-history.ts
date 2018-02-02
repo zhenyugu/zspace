@@ -5,4 +5,5 @@ export class BookHistory {
     status: number;
     hasArticle: number;
     createdTime: Date;
+    articleId: number;
 }

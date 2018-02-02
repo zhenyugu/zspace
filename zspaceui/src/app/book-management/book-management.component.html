@@ -17,8 +17,7 @@
         <label class="sr-only" for="bookauthor">作者</label>
         <input type="text" class="form-control" id="bookauthor" name="bookauthor" placeholder="作者" [(ngModel)]="newBook.author">
       </div>
-      <button type="submit" class="btn btn-default">添加</button>
-      {{addBookMessage}}
+      <button type="submit" class="btn btn-default">添加</button> {{addBookMessage}}
     </form>
 
     <!-- {{newBook.name}} -->
@@ -40,11 +39,12 @@
         <tr *ngFor='let book of bookHistory'>
           <td>{{book.name}}</td>
           <td>{{book.author}}</td>
-          <td>暂无</td>
           <td>
-            
+              <p *ngIf="!book.hasArticle">暂无</p>
+              <button *ngIf="book.hasArticle" type="button" class="btn btn-link" (click)="viewArticle(book.articleid)">阅览</button>
+          </td>
+          <td>
             <button *ngIf="!book.hasArticle" type="button" class="btn btn-link" (click)="addBookArticle(book.id)">写书评</button>
-            <button *ngIf="book.hasArticle" type="button" class="btn btn-link" (click)="viewArticle(book.id)">阅览</button>
             <button type="button" class="btn btn-link" (click)="deleteBook(book.id)">删除</button>
           </td>
         </tr>

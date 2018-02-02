@@ -14,6 +14,10 @@ export class ArticlesService {
     return this.http.get(this.apiBaseUrl + '/article');
   }
 
+  getArticleById(id) {
+    return this.http.get(this.apiBaseUrl + '/article/' + id);
+  }
+
   getArticlesByUser() {
 
   }

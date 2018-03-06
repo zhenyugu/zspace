@@ -1,1 +1,11 @@
-<h3>暂无内容</h3>
+<div class="container-fluid">
+    <div class="row" style="height:20px;"></div>
+    <div class="list-group" *ngFor="let article of articles">
+        <a [routerLink]="article.articleid" class="list-group-item">
+            <h4 class="list-group-item-heading">{{article.title}}</h4>
+            <p class="list-group-item-text" style="line-height: 24px; height:36px; overflow:hidden;text-overflow:ellipsis;
+        white-space: nowrap;" [innerHTML]="article.mainbody">
+            </p>
+        </a>
+    </div>
+</div>

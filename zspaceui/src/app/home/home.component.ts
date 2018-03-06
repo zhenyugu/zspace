@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
+    this.hasLogin = false;
     localStorage.clear();
     this.router.navigateByUrl('/home');
   }

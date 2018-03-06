@@ -1,4 +1,12 @@
-<p>
-  article-management works!
-</p>
+<!-- <article *ngFor="let article of articles">
+  {{article.title}}
+</article> -->
 
+<div class="list-group" *ngFor="let article of articles">
+  <a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading">{{article.title}}</h4>
+    <p class="list-group-item-text" style="line-height: 24px;">
+{{article.mainbody}}
+    </p>
+  </a>
+</div>

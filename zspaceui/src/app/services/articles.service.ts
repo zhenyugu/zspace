@@ -18,8 +18,8 @@ export class ArticlesService {
     return this.http.get(this.apiBaseUrl + '/article/' + id);
   }
 
-  getArticlesByUser() {
-
+  getArticlesByUser(userid) {
+    return this.http.get(this.apiBaseUrl + '/article/user/' + userid);
   }
 
   addArticle(article: Article) {

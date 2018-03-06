@@ -3,6 +3,7 @@
     <article>
       <header>
         <h1>{{article.title}}</h1>
+        <h5>{{article.username}} 发表于 {{article.createdtime}}</h5>
       </header>
       <article [innerHTML]="article.mainbody">
       </article>

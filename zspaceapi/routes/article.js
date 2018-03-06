@@ -27,6 +27,19 @@ var responseJSON = function (res, ret) {
 // });
 
 
+router.get('/', function (req, res, next) {
+  pool.getConnection(function (err, connection) {
+    var params = req.params;
+
+    if (params != null) {
+      connection.query(articleSql.queryAll, function (err, result) {
+        res.json(result);
+        // 释放连接  
+        connection.release();
+      });
+    }
+  });
+})
 
 router.get('/:id', function (req, res, next) {
   pool.getConnection(function (err, connection) {
@@ -34,6 +47,21 @@ router.get('/:id', function (req, res, next) {
 
     if (params != null) {
       connection.query(articleSql.queryById, [params.id], function (err, result) {
+        res.json(result);
+        // 释放连接  
+        connection.release();
+      });
+    }
+  });
+})
+
+
+router.get('/user/:id', function (req, res, next) {
+  pool.getConnection(function (err, connection) {
+    var params = req.params;
+
+    if (params != null) {
+      connection.query(articleSql.queryByUserid, [params.id], function (err, result) {
         res.json(result);
         // 释放连接  
         connection.release();
